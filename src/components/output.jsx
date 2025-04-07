@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button"
 export default function Output({ isLoading, results, analysis, idea, onNewIdea }) {
   return (
     <div className="flex-1 overflow-y-auto p-4 md:p-8">
-      <div className="max-w-2xl mx-auto space-y-4">
+      <div className="max-w-7xl mx-auto space-y-4">
         <div className="flex justify-between items-center mb-6">
           <Button
             variant="ghost"
@@ -52,36 +52,35 @@ export default function Output({ isLoading, results, analysis, idea, onNewIdea }
                     <div className="flex-1">
                       <h3 className="font-semibold">Analyzing your idea...</h3>
                       <p className="text-sm text-muted-foreground">We're evaluating your startup concept</p>
+                      <p className="p-3 text-xs text-center text-muted-foreground">"{idea}"</p>
                     </div>
                     <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
                   </div>
                 </motion.div>
               ) : (
-                <motion.div
-                  className="space-y-6"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                >
-                  {results && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.1 }}
-                    >
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                  <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.1 }}
+                    className="space-y-4"
+                  >
+                    {results && (
                       <SimilarCompanies idea={idea} results={results.results} />
-                    </motion.div>
-                  )}
+                    )}
+                  </motion.div>
                   
-                  {analysis && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.2 }}
-                    >
+                  <motion.div
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.2 }}
+                    className="space-y-4"
+                  >
+                    {analysis && (
                       <AnalysisReport analysis={analysis.analysis} />
-                    </motion.div>
-                  )}
-                </motion.div>
+                    )}
+                  </motion.div>
+                </div>
               )}
             </motion.div>
           )}
