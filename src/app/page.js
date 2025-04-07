@@ -1,8 +1,8 @@
 "use client"
 
 import { useState } from "react"
-import IdeaForm from "@/components/idea-form"
-import Output from "@/components/output"
+import IdeaPage from "@/components/idea-page"
+import Output from "@/components/output-page"
 import { fetchSimilarCompanies, fetchAnalysis } from "@/api/api"
 import { motion, AnimatePresence } from "framer-motion"
 
@@ -46,17 +46,16 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen relative">
+    <div>
       <AnimatePresence mode="wait">
         {!showResults ? (
           <motion.div
             key="form"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="absolute inset-0 flex items-center justify-center"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
           >
-            <IdeaForm 
+            <IdeaPage 
               onSubmit={handleSubmit} 
               isLoading={isLoading}
             />
@@ -87,6 +86,6 @@ export default function Home() {
           </motion.div>
         )}
       </AnimatePresence>
-    </main>
+    </div>
   )
 }

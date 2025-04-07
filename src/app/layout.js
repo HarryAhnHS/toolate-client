@@ -2,7 +2,7 @@ import { Inter } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "next-themes"
 import { Header } from "@/components/header"
-
+import { Footer } from "@/components/footer"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata = {
@@ -13,12 +13,13 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.className} min-h-screen bg-gradient-to-b from-background to-muted/50 antialiased`}>
+      <body className={`${inter.className} min-h-screen flex flex-col bg-gradient-to-b from-background to-muted/50 antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <Header />
-          <main className="pt-16">
+          <main className="pt-16 flex-1">
             {children}  
           </main>
+          <Footer />
         </ThemeProvider>
       </body>
     </html>
