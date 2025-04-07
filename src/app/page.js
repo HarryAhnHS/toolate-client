@@ -41,7 +41,6 @@ export default function Home() {
       <div className="max-w-5xl mx-auto">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-2xl md:text-3xl font-bold">Startup Similarity & Analysis Tool</h1>
-          <ModeToggle />
         </div>
 
         <IdeaForm onSubmit={handleSubmit} isLoading={isLoading} />
