@@ -4,6 +4,7 @@ import { useState } from "react"
 import IdeaForm from "@/components/idea-form"
 import Output from "@/components/output"
 import { fetchSimilarCompanies, fetchAnalysis } from "@/api/api"
+import { motion, AnimatePresence } from "framer-motion"
 
 export default function Home() {
   const [idea, setIdea] = useState("")
@@ -11,6 +12,7 @@ export default function Home() {
   const [results, setResults] = useState(null)
   const [analysis, setAnalysis] = useState(null)
   const [error, setError] = useState(null)
+  const [showResults, setShowResults] = useState(false)
 
   const handleSubmit = async (ideaText) => {
     setIdea(ideaText)
@@ -18,6 +20,7 @@ export default function Home() {
     setError(null)
     setResults(null)
     setAnalysis(null)
+    setShowResults(true)
 
     try {
       // Step 1: Fetch similar companies
@@ -34,26 +37,56 @@ export default function Home() {
     }
   }
 
-  return (
-    <main className="flex flex-col">
-      <div className="flex-1">
-        <IdeaForm 
-          onSubmit={handleSubmit} 
-          isLoading={isLoading}
-        />
-        <Output 
-          isLoading={isLoading}
-          results={results}
-          analysis={analysis}
-          idea={idea}
-        />
-      </div>
+  const handleNewIdea = () => {
+    setShowResults(false)
+    setIdea("")
+    setResults(null)
+    setAnalysis(null)
+    setError(null)
+  }
 
-      {error && (
-        <div className="p-4 bg-red-100 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg text-red-800 dark:text-red-200 mx-auto max-w-2xl w-full">
-          {error}
-        </div>
-      )}      
+  return (
+    <main className="min-h-screen relative">
+      <AnimatePresence mode="wait">
+        {!showResults ? (
+          <motion.div
+            key="form"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="absolute inset-0 flex items-center justify-center"
+          >
+            <IdeaForm 
+              onSubmit={handleSubmit} 
+              isLoading={isLoading}
+            />
+          </motion.div>
+        ) : (
+          <motion.div
+            key="results"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            className="min-h-screen"
+          >
+            <div className="flex-1">
+              <Output 
+                isLoading={isLoading}
+                results={results}
+                analysis={analysis}
+                idea={idea}
+                onNewIdea={handleNewIdea}
+              />
+            </div>
+
+            {error && (
+              <div className="p-4 bg-red-100 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg text-red-800 dark:text-red-200 mx-auto max-w-2xl w-full">
+                {error}
+              </div>
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </main>
   )
 }

@@ -1,14 +1,26 @@
 "use client"
 
 import { motion, AnimatePresence } from "framer-motion"
-import { Loader2, Sparkles } from "lucide-react"
-import SimilarCompanies from "@/components/results"
+import { Loader2, Sparkles, ArrowLeft } from "lucide-react"
+import SimilarCompanies from "@/components/similar-companies"
 import AnalysisReport from "@/components/analysis-report"
+import { Button } from "@/components/ui/button"
 
-export default function Output({ isLoading, results, analysis, idea }) {
+export default function Output({ isLoading, results, analysis, idea, onNewIdea }) {
   return (
     <div className="flex-1 overflow-y-auto p-4 md:p-8">
       <div className="max-w-2xl mx-auto space-y-4">
+        <div className="flex justify-between items-center mb-6">
+          <Button
+            variant="ghost"
+            onClick={onNewIdea}
+            className="flex items-center gap-2"
+          >
+            <ArrowLeft className="h-4 w-4" />
+            Back
+          </Button>
+        </div>
+
         <AnimatePresence>
           {(isLoading || results || analysis) && (
             <motion.div

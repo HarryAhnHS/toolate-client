@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
 import { Lightbulb, Fingerprint, ArrowRight } from "lucide-react"
+import ReactMarkdown from 'react-markdown'
 
 export default function AnalysisReport({ analysis }) {
   if (!analysis) return null
@@ -59,7 +60,9 @@ function AnalysisSection({ title, content, icon }) {
         {icon}
         <span className="ml-2">{title}</span>
       </h3>
-      <p className="text-sm text-muted-foreground whitespace-pre-line">{content}</p>
+      <div className="prose prose-sm dark:prose-invert max-w-none">
+        <ReactMarkdown>{content}</ReactMarkdown>
+      </div>
     </div>
   )
 }
