@@ -1,10 +1,8 @@
 "use client"
 
 import { useState } from "react"
-import { ModeToggle } from "@/components/mode-toggle"
 import IdeaForm from "@/components/idea-form"
-import SimilarCompanies from "@/components/results"
-import AnalysisReport from "@/components/analysis-report"
+import Output from "@/components/output"
 import { fetchSimilarCompanies, fetchAnalysis } from "@/api/api"
 
 export default function Home() {
@@ -37,26 +35,25 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen p-4 md:p-8 lg:p-12">
-      <div className="max-w-5xl mx-auto">
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-2xl md:text-3xl font-bold">Startup Similarity & Analysis Tool</h1>
-        </div>
-
-        <IdeaForm onSubmit={handleSubmit} isLoading={isLoading} />
-
-        {error && (
-          <div className="p-4 my-6 bg-red-100 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg text-red-800 dark:text-red-200">
-            {error}
-          </div>
-        )}
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">
-          {results && <SimilarCompanies idea={idea} results={results.results} />}
-
-          {analysis && <AnalysisReport analysis={analysis.analysis} />}
-        </div>
+    <main className="flex flex-col">
+      <div className="flex-1">
+        <IdeaForm 
+          onSubmit={handleSubmit} 
+          isLoading={isLoading}
+        />
+        <Output 
+          isLoading={isLoading}
+          results={results}
+          analysis={analysis}
+          idea={idea}
+        />
       </div>
+
+      {error && (
+        <div className="p-4 bg-red-100 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg text-red-800 dark:text-red-200 mx-auto max-w-2xl w-full">
+          {error}
+        </div>
+      )}      
     </main>
   )
 }
