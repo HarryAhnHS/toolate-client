@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion"
 import IdeaForm from "@/components/idea-form"
+import { Footer } from "@/components/footer"
 import { Sparkles, Lightbulb, Search, TrendingUp } from "lucide-react"
 
 export default function IdeaPage({ onSubmit, isLoading }) {

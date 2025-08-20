@@ -24,7 +24,7 @@ export default function IdeaForm({ onSubmit, isLoading }) {
     const words = ideaText.trim().split(/\s+/).filter(word => word.length > 0)
     const count = words.length
     setWordCount(count)
-    setIsValid(count >= 5)
+    setIsValid(count >= 5 && count <= 200)
   }, [ideaText])
 
   const handleSubmit = (e) => {
@@ -84,13 +84,17 @@ export default function IdeaForm({ onSubmit, isLoading }) {
               </Button>
             </div>
             <div className="mt-3 sm:mt-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 sm:gap-0 text-xs sm:text-sm">
-              <span className={`${isValid ? 'text-green-500' : 'text-muted-foreground'}`}>
-                (Min 5 words) {isValid ? '✓' : ''}
+              <span className={`${isValid ? 'text-green-500' : wordCount > 200 ? 'text-red-500' : 'text-muted-foreground'}`}>
+                {wordCount}/200 words {isValid ? '✓' : wordCount > 200 ? '⚠️' : ''}
               </span>
               <span className="text-muted-foreground flex items-center gap-1">
                 <Info className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-                <span className="hidden sm:inline">More words and details will help us find better matches</span>
-                <span className="sm:hidden">More details = better matches</span>
+                <span className="hidden sm:inline">
+                  {wordCount > 200 ? 'Please reduce word count to improve performance' : 'More words and details will help us find better matches'}
+                </span>
+                <span className="sm:hidden">
+                  {wordCount > 200 ? 'Too many words' : 'More details = better matches'}
+                </span>
               </span>
             </div>
           </motion.div>
